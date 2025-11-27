@@ -1,0 +1,46 @@
+Build a mobile PWA app called "Lumivahti" for iOS and Android in Finnish language. Use P&P Kattohuolto Oy branding: Primary color #2d1b69 (dark blue-violet), accent #ff6b35 (bright orange), background #f8fafc, text #1e293b. Add logo placeholder (simple roof icon + text "P&P Kattohuolto Oy").
+
+Core features:
+- Onboarding: 3 horizontal swipe slides
+  1. Title "Lumivahti" + subtitle "Varoittaa ennen kuin kattosi romahtaa"
+  2. "Seuraa lumikuormaa reaaliajassa postinumerollasi"
+  3. "Valitse kattotyyppisi tarkan riskirajan laskemiseksi"
+  End with big orange "Aloita" button
+
+- Setup screen (after onboarding):
+  • Email + password (Supabase auth or local)
+  • Postal code input (Finnish 5 digits)
+  • Dropdown for roof type with thresholds:
+    – Omakotitalo (kestävä) → 180 kg/m²
+    – Vanhempi omakotitalo → 140 kg/m²
+    – Autokatos / varasto → 100 kg/m²
+    – Halli / peltikatos → 120 kg/m²
+    – Oma raja (custom number input)
+  Save postalCode, roofType and calculated threshold to user profile
+
+- Home dashboard:
+  • Large circular gauge showing current snow load in kg/m²
+  • Fetch real snow depth from FMI open API using postal code → coordinates → snow observation → depth cm × 2.5 = load kg/m² (update every 6 h)
+  • Gauge colors: Green < threshold, Yellow ≥ 80 % of threshold, Red > threshold
+  • Text below: "Nykyinen: XX kg/m² – Turvallinen / Kohtalainen riski / Kriittinen"
+  • 3-day forecast cards (FMI API)
+  • Big orange button "Tilaa lumenpudotus" → opens user’s email client with pre-filled message:
+    To: info@pp-kattohuolto.fi
+    Subject: Lumenpudotuspyyntö – Lumivahti
+    Body: Hei P&P Kattohuolto,
+          Tarvitsen lumenpudotuksen kohteeseen:
+          Postinumero: [postalCode]
+          Kattotyyppi: [roofType]
+          Nykyinen lumikuorma: [currentLoad] kg/m²
+          Kiitos!
+
+- Settings tab (bottom navigation):
+  • Toggle push notifications on/off
+  • Slider to adjust personal threshold (default from roof type, 80–200 kg/m²)
+  • Logout button
+
+- Navigation: Bottom tabs → Koti | Asetukset
+- Initial flow: Show onboarding if not logged in, otherwise go straight to Home
+- Make it simple, modern, secure and fully publish-ready as PWA
+
+Generate full working app with live preview now.
